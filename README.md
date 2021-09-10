@@ -110,7 +110,7 @@ Use the conversions array to convert values from one (in)to another. If there is
 For numeric values, the factorization and offset should be (! - see To-Do's) applied before they are converted.
 
 Conversions can also be used to display icons:
-```
+```javascript
 conversions: [
     {
         from: "on",
@@ -124,7 +124,7 @@ conversions: [
 ## Coloring
 For numberic values, the color of either the label, value, suffix or all of them can be changed, based on the color array of the specific topic.
 Color scheme can also be defined in the config file as constant, like
-```
+```javascript
 const tempColors = [
     {upTo: 0, value: "#0000FF"},
     {upTo: 10, value: "#00FF00"},
@@ -132,10 +132,11 @@ const tempColors = [
 ]
 ```
 and then referring to it with
-```
+```javascript
 colors: tempColors
 ```
 
 ## References
 As already said, the module is mainly based on the work of [ottopaulsen](https://github.com/ottopaulsen/MMM-MQTT) with some modifications, optimizations and refactored code.
+
 There are also some concepts taken from the default calendar module of the [MagicMirror](https://github.com/MichMich/MagicMirror).
