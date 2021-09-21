@@ -41,16 +41,15 @@ Module.register("MMM-MQTT", {
                     label: subscription.label || "",
                     suffix: subscription.suffix || "",
                     value: null,
-                    numberOfDecimals: subscription.numDecimals || 0,
                     time: Date.now(),
                     colors: subscription.colors || false,
                     showLabelAsIcon: subscription.showLabelAsIcon || false,
                     icon: subscription.icon || "",
                     conversion: subscription.conversion || false,
-                    position: subscription.position || 0,
+                    position: subscription.position || 1,
                     offset: subscription.offset || false,
                     factor: subscription.factor || false,
-                    decimalSign: subscription.decimalSign || false,
+                    decimals: false || subscription.decimals,
                     average: false,
                     pastValues: [],
                     animationSpeed: this.config.animationSpeed,
@@ -146,8 +145,7 @@ Module.register("MMM-MQTT", {
             const valueWrapper = document.createElement("td");
             valueWrapper.className = "value align-right bright";
             valueWrapper.style.color = colors.value;
-            const convertedValue = this.convertValue(subscription);
-            valueWrapper.innerHTML = convertedValue;
+            valueWrapper.innerHTML = subscription.value;
             subscriptionWrapper.appendChild(valueWrapper);
 
             // Suffix
@@ -213,9 +211,10 @@ Module.register("MMM-MQTT", {
                 // (or use the internal animation speed, which should also be 0).
                 this.config.animationSpeed = 0;//this.fetchedData[i].animationSpeed
             }
-
-            // Update the received value.
+            // Update the received value
             this.fetchedData[i].value = receivedData.payload;
+            // and convert it according to the specified factor and offset value
+            this.fetchedData[i].value = this.convertValue(this.fetchedData[i]);
             break;
         }
     },
@@ -274,18 +273,21 @@ Module.register("MMM-MQTT", {
             }
         }
 
-        if (subscription.factor) {
+        if (subscription.factor && typeof subscription.factor === "number") {
             Log.debug("with a factor of: " + subscription.factor);
             subscriptionValue *= subscription.factor;
         }
 
-        if (subscription.offset) {
+        if (subscription.offset && typeof subscription.factor === "number") {
             Log.debug("with an offset of: " + subscription.offset);
             subscriptionValue += subscription.offset;
         }
+        Log.debug("over: " + subscriptionValue);
 
-        //TODO: Add decimal or thousand divider
-        Log.debug("to its final value: " + subscriptionValue);
+        // Round subscriptionValue to given number of decimals
+        subscriptionValue = (Math.round(subscriptionValue * 100) / 100).toFixed(subscription.decimals);
+
+        Log.debug("to its final value of (with " + subscription.decimals + " decimals): " + subscriptionValue);
         return subscriptionValue;
     }
 });
