@@ -53,11 +53,11 @@ Activate the module by adding it to the `config.js` file of the MagicMirror as s
                             {
                                 topic: "home/living-room/temperature", // Topic to look for
                                 label: "Temperature", // Label, which is displayed in front of the value
+                                showLabelAsIcon: true, // Specify whether the label shall be replaced by the specified icon
+                                icon: "thermometer", // Font awesome icon, which shall be displayed (only if showLabelAsIcon option is set to true)
                                 suffix: "°C", // Suffix, which is displayed behind the value
                                 decimals: 1, // Round value to this number of decimals
                                 position: 2, // Position of the value inside the table (counting top to bottom)
-                                showLabelAsIcon: true, // Specify whether the label shall be replaced by the specified icon
-                                icon: "thermometer", // Font awesome icon, which shall be displayed (only if showLabelAsIcon option is set to true)
                                 colors: [
                                     {upTo: 0, label: "#0a3fb0", value: "#0000FF", suffix: "#FFFFF"},
                                     {upTo: 25, value: "#00FF00"},
@@ -69,11 +69,11 @@ Activate the module by adding it to the `config.js` file of the MagicMirror as s
                             {
                                 topic: "home/living-room/light", // Topic to look for
                                 label: "Lumen", // Label, which is displayed in front of the value
+                                showLabelAsIcon: true, // Specify whether the label shall be replaced by the specified icon
+                                icon: "lightbulb", // Font awesome icon, which shall be displayed (only if showLabelAsIcon option is set to true)
                                 suffix: "lm", // Suffix, which is displayed behind the value
                                 decimals: 2, // Round value to this number of decimals
                                 position: 1, // Position of the value inside the table (counting top to bottom)
-                                showLabelAsIcon: true, // Specify whether the label shall be replaced by the specified icon
-                                icon: "lightbulb", // Font awesome icon, which shall be displayed (only if showLabelAsIcon option is set to true)
                                 colors: [
                                     {upTo: 0, label: "#0a3fb0", value: "#0000FF", suffix: "#FFFFF"},
                                     {upTo: 100, value: "#00FF00"},
