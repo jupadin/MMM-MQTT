@@ -115,9 +115,6 @@ Module.register("MMM-MQTT", {
                 return;
             }
 
-            // TODO: First convert values and then check coloring, since
-            // currently coloring is based on initial values.
-
             // Subscription wrapper
             const subscriptionWrapper = document.createElement("tr");
             subscriptionWrapper.className = "subscription";
