@@ -12,9 +12,7 @@ The module is based on the work of [ottopaulsen](https://github.com/ottopaulsen/
 The module shows the payload of a message reiceived via MQTT.
 
 ### To-Do's
-- [Fix] Apply factorization and offset before converting values into other(s).
 - Implement wildcards
-- Implement value rounding
 - Implement average value
 
 ## Installation
