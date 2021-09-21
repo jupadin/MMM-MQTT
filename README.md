@@ -32,7 +32,6 @@ npm install
 
 
 Activate the module by adding it to the `config.js` file of the MagicMirror as shown below.
-The table below lists all possible configuration options.
 
 ## Using the module
 ````javascript

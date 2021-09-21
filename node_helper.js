@@ -9,13 +9,12 @@ const NodeHelper = require('node_helper');
 const Log = require('../../js/logger.js');
 
 const Subscriber = require('./subscriber.js');
-const mqtt = require('mqtt');
 
 module.exports = NodeHelper.create({
     // Override start method.
     start: function() {
         // Log.log("Starting node helper for: " + this.name);
-        this.subscribers = [];
+        this.subscribers = {};
     },
 
     // Override socketNotificationReveived method.
@@ -39,28 +38,28 @@ module.exports = NodeHelper.create({
         try {
             new URL(url);
         } catch (error) {
-            Log.error("MQTT Error. Malformed broker url: ", url, error);
+            Log.error(this.name + ": MQTT Error. Malformed broker url: ", url, error);
             this.sendSocketNotification("MQTT_ERROR", { error_type: "MODULE_ERROR_MALFORMED_URL" });
             return;
         }
 
         let subscriber;
         if (typeof this.subscribers[identifier + url] === "undefined") {
-            Log.log("Create new subscriber for url: " + url);
+            Log.log(this.name + ": Create new subscriber for url: " + url + " and topic(s): " + topics);
             subscriber = new Subscriber(url, port, auth, topics);
 
             // Set callback functions
-            subscriber.onConnect((subscriber) => {
-                Log.debug("Conneced!");
+            subscriber.onConnect((packet) => {
+                Log.debug(this.name + ": Connected! (" + url + ", " + topics + ").");
             });
 
             subscriber.onMessage((topic, payload, packet) => {
-                Log.debug("Receivied message. Topic: " + topic + ", payload: " + payload.toString());
+                Log.log(this.name + ": Receivied message. Topic: \"" + topic + "\", with payload: \"" + payload.toString() + "\"");
                 this.sendSocketNotification("DATA", {topic: topic, payload: payload.toString()});
             });
 
             subscriber.onError((error) => {
-                Log.debug("Error while receiving mqtt-message: " + error);
+                Log.debug(this.name + ": Error: " + error);
 
             });
 
@@ -69,7 +68,7 @@ module.exports = NodeHelper.create({
 
             this.subscribers[identifier + url] = subscriber;
         } else {
-            Log.log("Use existing subscriber for url: " + url);
+            Log.log(this.name + ": Use existing subscriber for url: " + url);
             subscriber = this.subscribers[identifier + url];
         }
     },

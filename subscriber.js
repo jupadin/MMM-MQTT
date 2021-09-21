@@ -18,8 +18,6 @@ const Subscriber = function(url, port, auth, topics) {
     
 
     this.connect = function() {
-        Log.debug("Connecting to: " + url);
-
         const options = {
             port: port,
         };

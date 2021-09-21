@@ -10,6 +10,7 @@ Module.register("MMM-MQTT", {
     defaults: {
         header: "MMM-MQTT",
         animationSpeed: 2 * 1000, // 2 seconds
+        port: 1883
     },
 
     // Define start sequence.
@@ -23,7 +24,7 @@ Module.register("MMM-MQTT", {
             const broker = {};
             // broker.url = broker.url.replace("http://", "mqtt://");
             broker.url = (mqttBroker.url.match(/^mqtts?:\/\//) ? "" : "mqtt://") + mqttBroker.url;
-            broker.port = mqttBroker.port;
+            broker.port = mqttBroker.port || self.config.port;
             broker.auth = mqttBroker.auth;
             broker.topics = [];
             broker.topics.push(
@@ -52,14 +53,14 @@ Module.register("MMM-MQTT", {
                     decimalSign: subscription.decimalSign || false,
                     average: false,
                     pastValues: [],
+                    animationSpeed: this.config.animationSpeed,
                 })
             });
 
             this.addBroker(broker.url, broker.port, broker.auth, broker.topics);
         });
 
-        // Change from "LOADING" to "NO_MESSAGE", if no message has been received yet.
-        setTimeout(function() { self.loaded = true; self.updateDom(self.config.animationSpeed); }, this.config.animationSpeed);
+        setTimeout(function() { if (!self.loaded) {self.loaded = true; self.updateDom(self.config.animationSpeed);} }, (self.config.animationSpeed + 300));
     },
 
     // Define required styles.
@@ -96,7 +97,7 @@ Module.register("MMM-MQTT", {
             return wrapper;
         }
 
-        // If no value has been received yet
+        // If no message has been received yet
         if (this.fetchedData.every(element => element.value === null)) {
             wrapper.innerHTML = this.translate("NO_MESSAGE");
             wrapper.className = "light small dimmed";
@@ -166,11 +167,11 @@ Module.register("MMM-MQTT", {
     // Override socket notification handler.
     socketNotificationReceived: function(notification, payload) {
         if (notification == "DATA") {
-            const animationSpeed = this.loaded ? 0 : this.config.animationSpeed;
+            this.loaded = true;
             // Update data set with received data
             this.updateData(payload);
             // Update dom with given animation speed.
-            this.updateDom(animationSpeed);
+            this.updateDom(this.config.animationSpeed);
         } else if (notification == "ERROR") {
             // TODO: Update front-end to display specific error.
         }
@@ -201,7 +202,19 @@ Module.register("MMM-MQTT", {
             if (!(receivedData.url === savedData.url) || !(receivedData.topic === savedData.topic)) {
                 continue;
             }
+
             // We found our entry
+            if (savedData.value === null) {
+                // If we do not have received a message from this broker over the this topic, use the internal animation speed.
+                this.config.animationSpeed = savedData.animationSpeed;
+                this.fetchedData[i].animationSpeed = 0;
+            } else {
+                // We already received a message from this broker over this topic, update immediatly.
+                // (or use the internal animation speed, which should also be 0).
+                this.config.animationSpeed = 0;//this.fetchedData[i].animationSpeed
+            }
+
+            // Update the received value.
             this.fetchedData[i].value = receivedData.payload;
             break;
         }
