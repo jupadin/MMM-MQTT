@@ -49,7 +49,7 @@ Module.register("MMM-MQTT", {
                     position: subscription.position || 1,
                     offset: subscription.offset || false,
                     factor: subscription.factor || false,
-                    decimals: false || subscription.decimals,
+                    decimals: 1 || subscription.decimals,
                     average: false,
                     pastValues: [],
                     animationSpeed: this.config.animationSpeed,
@@ -212,6 +212,22 @@ Module.register("MMM-MQTT", {
             this.fetchedData[i].value = receivedData.payload;
             // and convert it according to the specified factor and offset value
             this.fetchedData[i].value = this.convertValue(this.fetchedData[i]);
+
+            const pastValues = this.fetchedData[i].pastValues;
+
+            // If we saved more than 5 past values
+            if (pastValues.length >= 5) {
+                // Remove the first element
+                pastValues.shift();
+            }
+            // and add the new element to end of the array
+            pastValues.push(receivedData.payload);
+
+            // Then calculate the average of the pastValue array
+            const sum = pastValues.reduce((a, b) => parseFloat(a) + parseFloat(b));
+            const avg = (sum / pastValues.length);
+
+            this.fetchedData[i].average = avg;
             break;
         }
     },
