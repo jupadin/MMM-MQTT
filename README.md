@@ -96,7 +96,7 @@ Activate the module by adding it to the `config.js` file of the MagicMirror as s
 ## Configuration options
 
 The mqttBroker is an array, such that multiple brokers can be added to it.
-The module can also be used in multiple times in the mirror.
+The module can also be used multiple times in the mirror.
 
 ## Wildcards (Will be implemented soon)
 The wildcard `+` and `#` are currently not supported, since it only works on some platforms (Chrome, Electron).
