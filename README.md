@@ -1,7 +1,6 @@
 # MMM-MQTT
 
 <p style="text-align: center">
-    <a href="https://david-dm.org/jupadin/MMM-MQTT"><img src="https://david-dm.org/jupadin/MMM-MQTT.svg" alt ="Dependency Status"></a>
     <a href="https://choosealicense.com/licenses/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
 </p>
 
@@ -27,7 +26,6 @@ git clone https://github.com/jupadin/MMM-MQTT.git
 cd MMM-MQTT
 npm install
 ```
-
 
 Activate the module by adding it to the `config.js` file of the MagicMirror as shown below.
 

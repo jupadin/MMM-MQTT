@@ -1,13 +1,12 @@
 /* Magic Mirror
  * Module: MMM-MQTT
  *
- * By Julian Dinter
+ * By jupadin
  * MIT Licensed.
  */
 
 const NodeHelper = require('node_helper');
 const Log = require('../../js/logger.js');
-
 const Subscriber = require('./subscriber.js');
 
 module.exports = NodeHelper.create({

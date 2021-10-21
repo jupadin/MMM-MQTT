@@ -1,7 +1,7 @@
 /* Magic Mirror
  * Module: MMM-MQTT
  *
- * By Julian Dinter
+ * By jupadin
  * MIT Licensed.
  */
 
