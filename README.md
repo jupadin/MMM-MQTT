@@ -6,13 +6,9 @@
 
 This module is an extention for the [MagicMirror](https://github.com/MichMich/MagicMirror).
 
-The module is based on the work of [ottopaulsen](https://github.com/ottopaulsen/MMM-MQTT) but has a cleaner interface, refactored code, other configuration options and is actively maintained.
+The module is based on the work of [ottopaulsen](https://github.com/ottopaulsen/MMM-MQTT) with refactored code, small modifications and other configuration options.
 
 The module shows the payload of a message reiceived via MQTT.
-
-### To-Do's
-- Implement wildcards
-- Implement average value
 
 ## Installation
 
@@ -94,10 +90,6 @@ Activate the module by adding it to the `config.js` file of the MagicMirror as s
 ## Configuration options
 
 The mqttBroker is an array, such that multiple brokers can be added to it.
-The module can also be used multiple times in the mirror.
-
-## Wildcards (Will be implemented soon)
-The wildcard `+` and `#` are currently not supported, since it only works on some platforms (Chrome, Electron).
 
 ## Conversions
 Use the conversions array to convert values from one (in)to another. If there is no match, the received value is used.
@@ -132,6 +124,6 @@ colors: tempColors
 ```
 
 ## References
-As already said, the module is mainly based on the work of [ottopaulsen](https://github.com/ottopaulsen/MMM-MQTT) with some modifications, optimizations and refactored code.
+As already said, the module is mainly based on the work of [ottopaulsen](https://github.com/ottopaulsen/MMM-MQTT) with some minor modifications.
 
 There are also some concepts taken from the default calendar module of the [MagicMirror](https://github.com/MichMich/MagicMirror).
